@@ -26,7 +26,7 @@ DemoApp::~DemoApp()
 void DemoApp::startDemo()
 {
 	new OgreFramework();
-	if(!OgreFramework::getSingletonPtr()->initOgre("AdvancedOgreFramework", 0, 0))
+	if(!OgreFramework::getSingletonPtr()->initOgre("BoardGame", 0, 0))
 		return;
 
 	OgreFramework::getSingletonPtr()->m_pLog->logMessage("Demo initialized!");
