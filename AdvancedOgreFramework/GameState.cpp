@@ -34,8 +34,8 @@ void GameState::enter()
     m_pRSQ->setQueryMask(OGRE_HEAD_MASK);
 
     m_pCamera = m_pSceneMgr->createCamera("GameCamera");
-    m_pCamera->setPosition(Vector3(5, 60, 60));
-    m_pCamera->lookAt(Vector3(5, 20, 0));
+    m_pCamera->setPosition(Vector3(0, 275, 60));
+    m_pCamera->lookAt(Vector3(0, 0, 0));
     m_pCamera->setNearClipDistance(5);
 
     m_pCamera->setAspectRatio(Real(OgreFramework::getSingletonPtr()->m_pViewport->getActualWidth()) /
@@ -62,7 +62,9 @@ bool GameState::pause()
 
 void GameState::resume()
 {
-    OgreFramework::getSingletonPtr()->m_pLog->logMessage("Resuming GameState...");
+
+//
+OgreFramework::getSingletonPtr()->m_pLog->logMessage("Resuming GameState...");
 
     buildGUI();
 
@@ -88,24 +90,11 @@ void GameState::createScene()
 {
     m_pSceneMgr->createLight("Light")->setPosition(75,75,75);
 
-    DotSceneLoader* pDotSceneLoader = new DotSceneLoader();
-    pDotSceneLoader->parseDotScene("CubeScene.xml", "General", m_pSceneMgr, m_pSceneMgr->getRootSceneNode());
-    delete pDotSceneLoader;
 
-    m_pSceneMgr->getEntity("Cube01")->setQueryFlags(CUBE_MASK);
-    m_pSceneMgr->getEntity("Cube02")->setQueryFlags(CUBE_MASK);
-    m_pSceneMgr->getEntity("Cube03")->setQueryFlags(CUBE_MASK);
 
-    m_pOgreHeadEntity = m_pSceneMgr->createEntity("Cube", "ogrehead.mesh");
-    m_pOgreHeadEntity->setQueryFlags(OGRE_HEAD_MASK);
-    m_pOgreHeadNode = m_pSceneMgr->getRootSceneNode()->createChildSceneNode("CubeNode");
-    m_pOgreHeadNode->attachObject(m_pOgreHeadEntity);
-    m_pOgreHeadNode->setPosition(Vector3(0, 0, -25));
-
-    m_pOgreHeadMat = m_pOgreHeadEntity->getSubEntity(1)->getMaterial();
-    m_pOgreHeadMatHigh = m_pOgreHeadMat->clone("OgreHeadMatHigh");
-    m_pOgreHeadMatHigh->getTechnique(0)->getPass(0)->setAmbient(1, 0, 0);
-    m_pOgreHeadMatHigh->getTechnique(0)->getPass(0)->setDiffuse(1, 0, 0, 0);
+	GameG gra;
+	gra.drawBoard();
+	
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -333,8 +322,7 @@ void GameState::update(double timeSinceLastFrame)
 void GameState::buildGUI()
 {
     OgreFramework::getSingletonPtr()->m_pTrayMgr->showFrameStats(OgreBites::TL_BOTTOMLEFT);
-    OgreFramework::getSingletonPtr()->m_pTrayMgr->showLogo(OgreBites::TL_BOTTOMRIGHT);
-    OgreFramework::getSingletonPtr()->m_pTrayMgr->createLabel(OgreBites::TL_TOP, "GameLbl", "Game mode", 250);
+   
     OgreFramework::getSingletonPtr()->m_pTrayMgr->showCursor();
 
     Ogre::StringVector items;
@@ -350,11 +338,7 @@ void GameState::buildGUI()
     m_pDetailsPanel = OgreFramework::getSingletonPtr()->m_pTrayMgr->createParamsPanel(OgreBites::TL_TOPLEFT, "DetailsPanel", 200, items);
     m_pDetailsPanel->show();
 
-    Ogre::String infoText = "[TAB] - Switch input mode\n\n[W] - Forward / Mode up\n[S] - Backwards/ Mode down\n[A] - Left\n";
-    infoText.append("[D] - Right\n\nPress [SHIFT] to move faster\n\n[O] - Toggle FPS / logo\n");
-    infoText.append("[Print] - Take screenshot\n\n[ESC] - Exit");
-    OgreFramework::getSingletonPtr()->m_pTrayMgr->createTextBox(OgreBites::TL_RIGHT, "InfoPanel", infoText, 300, 220);
-
+  
     Ogre::StringVector chatModes;
     chatModes.push_back("Solid mode");
     chatModes.push_back("Wireframe mode");

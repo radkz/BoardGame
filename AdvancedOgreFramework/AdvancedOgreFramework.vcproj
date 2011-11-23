@@ -191,6 +191,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GameG.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\GameState.cpp"
 				>
 			</File>
@@ -230,6 +234,10 @@
 			</File>
 			<File
 				RelativePath=".\DotSceneLoader.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\GameG.h"
 				>
 			</File>
 			<File

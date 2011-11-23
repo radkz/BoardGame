@@ -6,8 +6,7 @@
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 #include "AppState.hpp"
-
-#include "DotSceneLoader.hpp"
+#include "GameG.h"
 
 #include <OgreSubEntity.h>
 #include <OgreMaterialManager.h>

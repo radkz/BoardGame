@@ -17,6 +17,8 @@ public:
 	DECLARE_APPSTATE_CLASS(MenuState)
 
 	void enter();
+	void newSingleGame();
+	void buildGUI();
 	void createScene();
 	void exit();
 

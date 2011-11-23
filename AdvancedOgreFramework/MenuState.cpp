@@ -33,18 +33,36 @@ void MenuState::enter()
 
     OgreFramework::getSingletonPtr()->m_pViewport->setCamera(m_pCamera);
 	Ogre::FontManager::getSingleton().getByName("SdkTrays/Caption")->load();
-    OgreFramework::getSingletonPtr()->m_pTrayMgr->destroyAllWidgets();
-    OgreFramework::getSingletonPtr()->m_pTrayMgr->showFrameStats(OgreBites::TL_BOTTOMLEFT);
-    OgreFramework::getSingletonPtr()->m_pTrayMgr->showCursor();
-    OgreFramework::getSingletonPtr()->m_pTrayMgr->createButton(OgreBites::TL_CENTER, "SingleNewGameBtn", "Pojedynczy Gracz", 500);
-	OgreFramework::getSingletonPtr()->m_pTrayMgr->createButton(OgreBites::TL_CENTER, "MuliplayerNewGameBtn", "Gra wielosobowa", 500);
-	OgreFramework::getSingletonPtr()->m_pTrayMgr->createButton(OgreBites::TL_CENTER, "EnterBtn", "Opcje", 500);
-    OgreFramework::getSingletonPtr()->m_pTrayMgr->createButton(OgreBites::TL_CENTER, "ExitBtn", "Wyjscie", 500);
-
+    this->buildGUI();
     createScene();
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
+void MenuState::buildGUI()
+{
+	OgreFramework::getSingletonPtr()->m_pTrayMgr->destroyAllWidgets();
+    OgreFramework::getSingletonPtr()->m_pTrayMgr->showFrameStats(OgreBites::TL_BOTTOMLEFT);
+    OgreFramework::getSingletonPtr()->m_pTrayMgr->showCursor();
+    OgreFramework::getSingletonPtr()->m_pTrayMgr->createButton(OgreBites::TL_CENTER, "SingleNewGameBtn", "Pojedynczy Gracz", 500);
+	OgreFramework::getSingletonPtr()->m_pTrayMgr->createButton(OgreBites::TL_CENTER, "MuliplayerNewGameBtn", "Gra wielosobowa", 500);
+	OgreFramework::getSingletonPtr()->m_pTrayMgr->createButton(OgreBites::TL_CENTER, "OptionsBtn", "Opcje", 500);
+    OgreFramework::getSingletonPtr()->m_pTrayMgr->createButton(OgreBites::TL_CENTER, "ExitBtn", "Wyjscie", 500);
+
+}
+
+void MenuState::newSingleGame()
+{ 
+	OgreFramework::getSingletonPtr()->m_pTrayMgr->destroyAllWidgets();
+	OgreFramework::getSingletonPtr()->m_pTrayMgr->createLabel(OgreBites::TL_CENTER, "labelNewGame", "NowaGra", 600);
+	OgreFramework::getSingletonPtr()->m_pTrayMgr->createLongSlider(OgreBites::TL_CENTER,"numberPlayersSlider","Liczba graczy: ",600,250,30,2,5,4);
+	OgreFramework::getSingletonPtr()->m_pTrayMgr->createLongSlider(OgreBites::TL_CENTER,"cashSlider","Ilosc poczatkowej gotowki: ",600,250,60,1000,5000,5);
+	OgreBites::Slider* tmp= (OgreBites::Slider*)OgreFramework::getSingletonPtr()->m_pTrayMgr->getWidget("cashSlider");
+	tmp->setValue(3000);
+	OgreFramework::getSingletonPtr()->m_pTrayMgr->createButton(OgreBites::TL_CENTER, "OKNewGameBtn", "Rozpocznij gre", 600);
+	OgreFramework::getSingletonPtr()->m_pTrayMgr->createButton(OgreBites::TL_CENTER, "CancelNewGameBtn", "Anuluj", 600);
+	
+	//changeAppState(findByName("GameState"));
+}
 
 void MenuState::createScene()
 {
@@ -131,8 +149,16 @@ void MenuState::buttonHit(OgreBites::Button *button)
 {
     if(button->getName() == "ExitBtn")
         m_bQuit = true;
-    else if(button->getName() == "EnterBtn")
+    else if(button->getName() == "SingleNewGameBtn")
+		this->newSingleGame();	
+	else if(button->getName() == "MuliplayerNewGameBtn")
         changeAppState(findByName("GameState"));
+	else if(button->getName() == "OptionsBtn")
+        changeAppState(findByName("GameState"));
+	else if(button->getName() == "OKNewGameBtn")
+        changeAppState(findByName("GameState"));
+	else if(button->getName() == "CancelNewGameBtn")
+        this->buildGUI();
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
